@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductBean;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductBeanRemote;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.local.ProductBeanPro;
@@ -16,13 +17,48 @@ import vn.edu.iuh.fit.phandev.duongvanphan_ss2.frontend.models.ProductModels;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.List;
+import java.nio.file.Paths;
 
 @WebServlet(name = "ControlServlet", value = "/control-servlet")
 public class controllers extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @EJB
     private ProductLocal productBean;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        switch (action){
+            case "addproduct":
+            {
+//                String fileName=null;
+//                Part filePart = req.getPart("anh"); // "file" là tên của input trong form
+//                if (filePart != null) {
+//
+//                 fileName  = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+//                }
+                    String name=req.getParameter("name");
+                String des=req.getParameter("description");
+
+                ProductDTO p= new ProductDTO(name,des);
+                boolean result=ProductModels.addProduct(p);
+                if (result){
+                    resp.getWriter().println("Product added");
+                }
+                else{
+                    resp.getWriter().println("Product not added");
+                }
+                break;
+
+            }
+            default : {
+                resp.sendError(400, "Get Action is invalid");
+            }
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        resp.setContentType("text/html");
@@ -40,6 +76,7 @@ public class controllers extends HttpServlet {
                    resp.sendError(400, "Get Action is invalid");
                }
            }
+
 //        PrintWriter out = resp.getWriter();
 //        List<Product> Products=productBean.getAllProducts();
 //        req.setAttribute("products", Products);

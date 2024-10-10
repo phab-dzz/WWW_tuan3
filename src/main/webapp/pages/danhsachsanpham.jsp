@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Bên Trái</title>
+    <title>Danh sach san pham</title>
     <style>
         * {
             box-sizing: border-box;
@@ -156,7 +156,7 @@
                 for(ProductDTO p : products) {
         %>
         <div class="card">
-            <img src="<%=p.getImgPath()%>" alt="Product Image">
+            <img src="${pageContext.request.contextPath}/data/ip16.png" alt="Product Image">
             <div class="card-info">
                 <h3><%= p.getName() %></h3>
                 <p>ID: <%= p.getId() %></p>

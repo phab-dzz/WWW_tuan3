@@ -10,7 +10,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Bên Trái</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Quan Ly San Pham</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,14 +48,58 @@
             padding: 20px;
             width: calc(100% - 250px);
         }
+
+        .sidebar .dropdown-menu {
+            background-color: #2c3e50;
+            border: none;
+        }
+
+        .sidebar .dropdown-menu a {
+            color: white;
+        }
+
+        .sidebar .dropdown-menu a:hover {
+            background-color: #34495e;
+        }
+
+        #button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 10px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <a href="control-servlet?action=listproduct">Quản lý sản phẩm</a>
-    <a href="#">Giá sản phẩm</a>
+    <a href="index.jsp">Trang chủ</a>
+    <div class="dropdown">
+        <a  class="dropdown-toggle" data-toggle="dropdown">Quản lý sản phẩm</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="control-servlet?action=listproduct">Xem danh sach</a>
+            <a class="dropdown-item" href="./pages/Themsanpham.jsp">Thêm</a>
+            <a class="dropdown-item" href="#">update</a>
+            <a class="dropdown-item" href="#">Xoá</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">Giá sản phẩm</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Thêm</a>
+            <a class="dropdown-item" href="#">update</a>
+            <a class="dropdown-item" href="#">Xoá</a>
+        </div>
+    </div>
 </div>
 
 <div class="main-content">
