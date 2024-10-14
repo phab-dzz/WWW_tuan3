@@ -1,22 +1,20 @@
-package vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.api;
+package vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.api.Resource;
 
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductBean;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductBeanRemote;
+import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductPriceBeanRemote;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.entities.Product;
-
-import java.util.List;
 
 @Path("/products")
 public class ProductRource {
     @EJB
     private ProductBeanRemote productBeanRemote;
-
+    @EJB
+    private ProductPriceBeanRemote productPriceBeanRemote;
     @GET
-
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllProduct() {
         return  Response.ok(productBeanRemote.getAllProduct()).build();
@@ -67,6 +65,11 @@ public class ProductRource {
 
 
 
+    }
+    @GET
+    @Path("price/{id}")
+    public Response getProductPrice(@PathParam("id") int id) {
+        return  Response.ok(productPriceBeanRemote.findProductPrice(id)).build();
     }
 
 

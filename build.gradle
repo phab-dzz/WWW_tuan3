@@ -24,7 +24,8 @@ tasks.withType(JavaCompile) {
 dependencies {
     // Thư viện Apache Commons FileUpload
     implementation 'commons-fileupload:commons-fileupload:1.4'
-
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
     // Thư viện Apache Commons IO
     implementation 'commons-io:commons-io:2.11.0'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind

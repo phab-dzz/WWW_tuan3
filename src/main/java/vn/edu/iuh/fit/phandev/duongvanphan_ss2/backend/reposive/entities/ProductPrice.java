@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -25,7 +26,7 @@ public class ProductPrice {
 
     @NotNull
     @Column(name = "apply_date", nullable = false)
-    private Instant applyDate;
+    private LocalDateTime applyDate;
 
     @NotNull
     @Column(name = "value", nullable = false)
@@ -36,9 +37,9 @@ public class ProductPrice {
     private String note;
     public ProductPrice() {}
 
-    public ProductPrice(Integer productId, Product product, Instant applyDate, Double value, String note) {
-        this.productId = productId;
+    public ProductPrice(Product product, Integer productId, LocalDateTime applyDate, Double value, String note) {
         this.product = product;
+        this.productId = productId;
         this.applyDate = applyDate;
         this.value = value;
         this.note = note;
@@ -68,11 +69,11 @@ public class ProductPrice {
         this.productId = productId;
     }
 
-    public Instant getApplyDate() {
+    public @NotNull LocalDateTime getApplyDate() {
         return applyDate;
     }
 
-    public void setApplyDate(Instant applyDate) {
+    public void setApplyDate(@NotNull LocalDateTime applyDate) {
         this.applyDate = applyDate;
     }
 

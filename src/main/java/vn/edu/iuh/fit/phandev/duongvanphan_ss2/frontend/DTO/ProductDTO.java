@@ -1,10 +1,15 @@
 package vn.edu.iuh.fit.phandev.duongvanphan_ss2.frontend.DTO;
 
+import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.entities.ProductPrice;
+
+import java.util.List;
+
 public class ProductDTO {
     private int id;
     private  String name;
     private  String description;
     private  String imgPath;
+    private ProductPrice price;
 
 
     public ProductDTO(int id, String name, String description, String imgPath) {
@@ -12,6 +17,23 @@ public class ProductDTO {
         this.name = name;
         this.description = description;
         this.imgPath = imgPath;
+    }
+
+
+    public ProductPrice getPrice() {
+        return price;
+    }
+
+    public void setPrice(ProductPrice price) {
+        this.price = price;
+    }
+
+    public ProductDTO(int id, String name, String description, String imgPath, ProductPrice price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imgPath = imgPath;
+        this.price = price;
     }
 
     public ProductDTO(String name, String description, String imgPath) {

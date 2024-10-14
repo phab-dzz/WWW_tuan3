@@ -14,6 +14,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sach san pham</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -120,6 +124,7 @@
         }
 
         .btn-update {
+
             background-color: #3498db;
             color: white;
         }
@@ -143,6 +148,7 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
+    <a href="">Trang chủ</a>
     <a href="#product-management">Quản lý sản phẩm</a>
     <a href="#product-pricing">Giá sản phẩm</a>
 </div>
@@ -163,8 +169,11 @@
                 <p><%= p.getDescription() %></p>
             </div>
             <div class="buttons">
-                <button class="btn-update">Update</button>
-                <button class="btn-delete">Delete</button>
+                <a class="btn btn-warning" href="control-servlet?action=update&id=<%=p.getId()%>" >Update</a>
+                <a class="btn btn-danger" href="control-servlet?action=deleteproduct&id=<%=p.getId()%>">Delete</a>
+<%--                <button class=""></button>--%>
+<%--                <button class="btn-delete">Delete</button>--%>
+
             </div>
         </div>
         <%

@@ -30,6 +30,7 @@ public class controllers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        List<ProductDTO> list=ProductModels.getAll();
         switch (action){
             case "addproduct":
             {
@@ -41,7 +42,6 @@ public class controllers extends HttpServlet {
 //                }
                     String name=req.getParameter("name");
                 String des=req.getParameter("description");
-
                 ProductDTO p= new ProductDTO(name,des);
                 boolean result=ProductModels.addProduct(p);
                 if (result){
@@ -52,7 +52,22 @@ public class controllers extends HttpServlet {
                 }
                 break;
 
+            }case"updateproduct":{
+                String name=req.getParameter("name");
+                String des=req.getParameter("description");
+                ProductDTO p= new ProductDTO(name,des);
+                boolean result=ProductModels.updateProduct(p);
+
+                if (result){
+                    resp.getWriter().println("Product added");
+                }
+                else{
+                    resp.getWriter().println("Product not added");
+                }
+                break;
             }
+
+
             default : {
                 resp.sendError(400, "Get Action is invalid");
             }
@@ -70,6 +85,33 @@ public class controllers extends HttpServlet {
                    req.setAttribute("products", list);
                    req.getRequestDispatcher("pages/danhsachsanpham.jsp").forward(req, resp);
 
+
+               }
+               case"deleteproduct": {
+                   String id = req.getParameter("id");
+                   int Id = Integer.parseInt(id);
+                   boolean re = ProductModels.deleteProduct(Id);
+
+                   if (re) {
+                       resp.getWriter().println("Product delete success");
+                   } else {
+                       resp.getWriter().println("Product delete failed");
+                   }
+                   break;
+
+
+               } case"update":{
+                   String id = req.getParameter("id");
+                   ProductDTO p=new ProductDTO();
+                   for(ProductDTO pro:list){
+                       if (pro.getId()==Integer.parseInt(id)){
+                           p=pro;
+                           break;
+                       }
+
+                   }
+                  req.setAttribute("product", p);
+                   req.getRequestDispatcher("/pages/capnhatsanpham.jsp").forward(req, resp);
                }
 
                default : {

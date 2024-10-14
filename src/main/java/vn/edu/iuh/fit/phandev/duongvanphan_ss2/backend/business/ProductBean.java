@@ -54,10 +54,17 @@ public class ProductBean implements  ProductBeanRemote{
     public boolean deleteProductById(int id) {
         Product p= entityManager.find(Product.class, id);
         if(p!=null){
+            deleteProductPricesByProductId(id);
             entityManager.remove(p);
             return true;
         }
         return false;
+    }
+    private void deleteProductPricesByProductId(int productId) {
+        // Sử dụng JPQL để xóa các bản ghi liên quan trong product_price
+        entityManager.createQuery("DELETE FROM ProductPrice pp WHERE pp.product.id = :productId")
+                .setParameter("productId", productId)
+                .executeUpdate();
     }
 
 //    public static void main(String[] args) {

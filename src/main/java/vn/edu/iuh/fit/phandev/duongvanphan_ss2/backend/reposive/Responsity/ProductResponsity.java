@@ -1,11 +1,12 @@
 package vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.Responsity;
 
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.entities.Product;
 
 import java.util.List;
-
+@Stateless
 public class ProductResponsity {
     @PersistenceContext(name = "JPA_MARIA")
     private EntityManager em;
