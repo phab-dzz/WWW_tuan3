@@ -28,11 +28,23 @@ public class controllers extends HttpServlet {
     private ProductLocal productBean;
 
     @Override
+    public void init() throws ServletException {
+        super.init();
+    }
+
+
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         List<ProductDTO> list=ProductModels.getAll();
         switch (action){
-            case "addproduct":
+            case"listproduct": {
+                req.getSession().setAttribute("products", list);
+                req.getRequestDispatcher("pages/danhsachsanpham.jsp").forward(req, resp);
+
+            }
+                case "addproduct":
             {
 //                String fileName=null;
 //                Part filePart = req.getPart("anh"); // "file" là tên của input trong form
@@ -46,6 +58,10 @@ public class controllers extends HttpServlet {
                 boolean result=ProductModels.addProduct(p);
                 if (result){
                     resp.getWriter().println("Product added");
+                    List<ProductDTO> l=ProductModels.getAll();
+                    req.getSession().setAttribute("products", l);
+                   req.getRequestDispatcher("pages/danhsachsanpham.jsp").forward(req, resp);
+
                 }
                 else{
                     resp.getWriter().println("Product not added");
@@ -53,13 +69,16 @@ public class controllers extends HttpServlet {
                 break;
 
             }case"updateproduct":{
+                int id=Integer.parseInt(req.getParameter("id"));
                 String name=req.getParameter("name");
                 String des=req.getParameter("description");
-                ProductDTO p= new ProductDTO(name,des);
+                ProductDTO p= new ProductDTO(id,name,des);
                 boolean result=ProductModels.updateProduct(p);
-
                 if (result){
-                    resp.getWriter().println("Product added");
+                    List<ProductDTO> l=ProductModels.getAll();
+                    req.getSession().setAttribute("products", l);
+                    req.getRequestDispatcher("pages/danhsachsanpham.jsp").forward(req, resp);
+
                 }
                 else{
                     resp.getWriter().println("Product not added");
@@ -81,16 +100,12 @@ public class controllers extends HttpServlet {
         System.out.println(list.toString());
             String action = req.getParameter("action");
            switch (action){
-               case"listproduct":{
-                   req.setAttribute("products", list);
-                   req.getRequestDispatcher("pages/danhsachsanpham.jsp").forward(req, resp);
 
 
-               }
                case"deleteproduct": {
-                   String id = req.getParameter("id");
-                   int Id = Integer.parseInt(id);
-                   boolean re = ProductModels.deleteProduct(Id);
+                   int number=Integer.parseInt(req.getParameter("id"));
+
+                   boolean re = ProductModels.deleteProduct(number);
 
                    if (re) {
                        resp.getWriter().println("Product delete success");
@@ -110,8 +125,8 @@ public class controllers extends HttpServlet {
                        }
 
                    }
-                  req.setAttribute("product", p);
-                   req.getRequestDispatcher("/pages/capnhatsanpham.jsp").forward(req, resp);
+                   req.setAttribute("product", p);
+                   req.getRequestDispatcher("pages/capnhatsanpham.jsp").forward(req, resp);
                }
 
                default : {

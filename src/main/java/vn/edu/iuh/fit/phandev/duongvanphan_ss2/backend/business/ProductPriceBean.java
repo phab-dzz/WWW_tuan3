@@ -12,8 +12,10 @@ public class ProductPriceBean implements ProductPriceBeanRemote {
     private EntityManager em;
     @Override
     public ProductPrice findProductPrice( int id) {
-        return  em.createQuery("select p from ProductPrice p where p.product.id= :id", ProductPrice.class)
-                .setParameter("id", id).getSingleResult();
+//        return  em.createQuery("select p from ProductPrice p where p.product.id= :id", ProductPrice.class)
+//                .setParameter("id", id).getSingleResult();
+        ProductPrice productPrice = em.find(ProductPrice.class, id);
+        return productPrice!=null?productPrice:null;
     }
 
     @Override

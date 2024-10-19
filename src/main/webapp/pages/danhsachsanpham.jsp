@@ -157,7 +157,7 @@
 
     <div class="card-container">
         <%
-            List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
+            List<ProductDTO> products = (List<ProductDTO>) session.getAttribute("products");
             if (products != null) {
                 for(ProductDTO p : products) {
         %>
@@ -167,6 +167,7 @@
                 <h3><%= p.getName() %></h3>
                 <p>ID: <%= p.getId() %></p>
                 <p><%= p.getDescription() %></p>
+
             </div>
             <div class="buttons">
                 <a class="btn btn-warning" href="control-servlet?action=update&id=<%=p.getId()%>" >Update</a>

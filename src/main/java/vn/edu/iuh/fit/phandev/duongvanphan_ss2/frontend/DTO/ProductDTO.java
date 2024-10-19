@@ -36,10 +36,18 @@ public class ProductDTO {
         this.price = price;
     }
 
+
+
     public ProductDTO(String name, String description, String imgPath) {
         this.name = name;
         this.description = description;
         this.imgPath = imgPath;
+    }
+
+    public ProductDTO(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
 
     public ProductDTO(String name, String description) {

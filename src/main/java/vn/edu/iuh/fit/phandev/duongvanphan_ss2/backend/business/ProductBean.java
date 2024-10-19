@@ -36,7 +36,9 @@ public class ProductBean implements  ProductBeanRemote{
 
     @Override
     public Product getProductById(int id) {
-        return entityManager.createQuery("select  p from Product  p where p.id = :id", Product.class).setParameter("id", id).getSingleResult();
+       Product product = entityManager.find(Product.class, id);
+       return product!=null?product:null;
+
     }
 
     @Override

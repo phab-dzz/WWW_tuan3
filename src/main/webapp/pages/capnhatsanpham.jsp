@@ -118,12 +118,12 @@
 
 <div class="main-content">
   <div class="" style="">
-    <form action="../control-servlet" method="post" style="width: 300px">
+    <form action="/DuongVanPhan_ss2-1.0-SNAPSHOT/control-servlet?action=updateproduct" method="post" style="width: 300px">
       <h2><b>Thông tin San Pham</b></h2>
 <% ProductDTO p = (ProductDTO) request.getAttribute("product");
     %>
       <label style="display: block; margin-bottom: 12px">
-        <span style="display: inline-block; width: 100px">Id:</span> <input type="text" name="phone"
+        <span style="display: inline-block; width: 100px">Id:</span> <input type="text" name="id"
                                                                                value="<%=p.getId()%>" />
       </label>
       <label style="display: block; margin-bottom: 12px">

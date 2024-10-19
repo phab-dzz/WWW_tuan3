@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.Response;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductBeanRemote;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.business.ProductPriceBeanRemote;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.entities.Product;
+import vn.edu.iuh.fit.phandev.duongvanphan_ss2.backend.reposive.entities.ProductPrice;
 
 @Path("/products")
 public class ProductRource {
@@ -16,6 +17,7 @@ public class ProductRource {
     private ProductPriceBeanRemote productPriceBeanRemote;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+
     public Response getAllProduct() {
         return  Response.ok(productBeanRemote.getAllProduct()).build();
     }
@@ -36,23 +38,28 @@ public class ProductRource {
 //    }
     @POST
     @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addProduct(Product product) {
         productBeanRemote.addProduct(product);
         return Response.ok().build();
     }
     @PUT
     @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateProduct(Product product) {
 
-        if (productBeanRemote.getProductById(product.getId()) == null) {
-            return Response.status(Response.Status.NOT_FOUND).build(); // trả về 404 nếu không tìm thấy sản phẩm
-        }
+//        if (productBeanRemote.getProductById(product.getId()) == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build(); // trả về 404 nếu không tìm thấy sản phẩm
+//        }
 
         productBeanRemote.updateProduct(product); // Giả sử phương thức này cũng có thể sử dụng để cập nhật sản phẩm
         return Response.ok().build();
     }
     @DELETE
     @Path("/delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProduct(@PathParam("id") int id) {
         if (productBeanRemote.getProductById(id) == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -69,7 +76,11 @@ public class ProductRource {
     @GET
     @Path("price/{id}")
     public Response getProductPrice(@PathParam("id") int id) {
-        return  Response.ok(productPriceBeanRemote.findProductPrice(id)).build();
+        if(productPriceBeanRemote.findProductPrice(id)==null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        }
+        return Response.ok(productPriceBeanRemote.findProductPrice(id)).build();
     }
 
 

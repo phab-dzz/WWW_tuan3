@@ -17,6 +17,7 @@ import jakarta.ws.rs.core.Response;
 import vn.edu.iuh.fit.phandev.duongvanphan_ss2.frontend.DTO.ProductPriceDTO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductModels {
@@ -25,59 +26,51 @@ public class ProductModels {
     private static final String GET_ALL_URL = "http://localhost:8080/DuongVanPhan_ss2-1.0-SNAPSHOT/api/products";
     private static final String ADD_URL = "http://localhost:8080/DuongVanPhan_ss2-1.0-SNAPSHOT/api/products/add";
     private static final String URL="http://localhost:8080/DuongVanPhan_ss2-1.0-SNAPSHOT/api";
-    public static List<ProductDTO> getAllProducts() {
-        List<ProductDTO> products = new ArrayList<>();  // Khởi tạo danh sách rỗng
-        try (Client client = ClientBuilder.newClient()) {
-            WebTarget target = client.target(GET_ALL_URL);
-            products = target.request(MediaType.APPLICATION_JSON)  // Kiểm tra xem API trả về JSON hay XML
-                    .get(new GenericType<List<ProductDTO>>() {});
-        } catch (Exception e) {
-            System.err.println("Error fetching products: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return products;
-    }
-    public static List<ProductDTO> getAll() {
-        List<ProductDTO> productList = new ArrayList<>();
-        Client client = ClientBuilder.newBuilder().build();
-        WebTarget target1 = client.target(GET_ALL_URL);
-        String jsonProducts = target1.request("application/json")
-                .get().readEntity(String.class);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Product[] products = mapper.readValue(jsonProducts, Product[].class);
+        public static List<ProductDTO> getAll(){
+         List<ProductDTO> l= new ArrayList<>();
+         Client client= ClientBuilder.newBuilder().build();
+         WebTarget target=client.target(GET_ALL_URL);
+         String jsonproducts= target.request(MediaType.APPLICATION_JSON).get().readEntity(String.class);
+         ObjectMapper mapper = new ObjectMapper();
 
-            for (Product product : products) {
-                    ProductPrice productPrice = getProductPrice(product.getId());
-                productList.add(
-                        new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImgPath(),productPrice)
-                );
+            try{
+                Product[] products=mapper.readValue(jsonproducts,Product[].class);
+                for(Product product:products){
+                    ProductPrice price= getProductPrice(product.getId());
+
+                        l.add(
+                                new ProductDTO(product.getId(),product.getName(),product.getDescription(),product.getImgPath(),price)
+
+
+                        );}
+
+            }catch(Exception e)
+            {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return productList;
-    }
-    public static boolean addProduct(ProductDTO productDTO) {
-        Client client = ClientBuilder.newBuilder().build();
-        WebTarget target = client.target(ADD_URL);
+            return l;
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String jsonProduct = mapper.writeValueAsString(productDTO);
-            Response response = target.request(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(jsonProduct, MediaType.APPLICATION_JSON));
-            if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-                System.out.println("Product added successfully!");
-                return true;
-            } else {
-                System.out.println("Failed to add product. Server response: " + ((jakarta.ws.rs.core.Response) response).getStatus());
+        }
+
+   public static boolean addProduct(ProductDTO productDTO){
+            Client client= ClientBuilder.newBuilder().build();
+            WebTarget target=client.target(ADD_URL);
+            ObjectMapper mapper = new ObjectMapper();
+            try{
+                String json= mapper.writeValueAsString(productDTO);
+                Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(json, MediaType.APPLICATION_JSON));
+                if(response.getStatus() != 200)
+                    return false;
+                else
+                    return true;
+
+
+            }catch (JsonProcessingException e) {
+                e.printStackTrace();
                 return false;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }}
+
+   }
 
         public static ProductPrice getProductPrice(int id) throws JsonProcessingException {
             Client client1 = ClientBuilder.newBuilder().build();
@@ -136,19 +129,29 @@ public class ProductModels {
 
             Response response = target.request(MediaType.APPLICATION_JSON)
                     .put(Entity.entity(jsonProduct, MediaType.APPLICATION_JSON));
-            if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-                System.out.println("Product updated successfully!");
+            if (response.getStatus() == 200) {
+
                 return true;
             } else {
-                System.out.println("Failed to update product. Server response: " + response.getStatus());
-                return false;
+                  return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
+    public static List<ProductDTO> getAllProducts() {
+        List<ProductDTO> products = new ArrayList<>();  // Khởi tạo danh sách rỗng
+        try (Client client = ClientBuilder.newClient()) {
+            WebTarget target = client.target(GET_ALL_URL).path("/update");
+            products = target.request(MediaType.APPLICATION_JSON)  // Kiểm tra xem API trả về JSON hay XML
+                    .get(new GenericType<List<ProductDTO>>() {});
+        } catch (Exception e) {
+            System.err.println("Error fetching products: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return products;
+    }
 
 
 }
